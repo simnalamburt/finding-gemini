@@ -1,0 +1,19 @@
+#!/usr/bin/env ruby
+require 'parallel'
+
+ip = []
+
+candidates = File.readlines('list')
+count = candidates.count
+
+Parallel.each_with_index(candidates, in_threads: count) do |line, i|
+  line.chomp!
+  puts "(#{i+1}/#{count}) Trying #{line}"
+  result = `ssh -v -o PreferredAuthentications=publickey -o StrictHostKeyChecking=no #{line} 'echo "SUCCESS"' 2>/dev/null`.chomp
+  if result == "SUCCESS"
+    ip << line
+  end
+end
+
+puts "\n"
+puts "성공한 IP:", ip

@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+
+File.open('result').read.split("\n").each_slice(5).each do |i|
+  puts (i[1][21..-1]) if i[4].split(' ')[1] == 'open'
+end
